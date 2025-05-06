@@ -11,3 +11,4 @@ obj/
 # App settings (to protect secrets)
 appsettings.Development.json
 appsettings.*.json
+BookManagerAPI/appsettings.json
