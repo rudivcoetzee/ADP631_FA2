@@ -1,6 +1,13 @@
+# Build artifacts
 bin/
 obj/
 *.db
+
+# User-specific IDE files
 *.suo
 *.user
 .vscode/
+
+# App settings (to protect secrets)
+appsettings.Development.json
+appsettings.*.json
