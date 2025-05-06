@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔧 Add DB context + Swagger support
+// add db context + swagger support
 builder.Services.AddDbContext<BookDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// 🧪 Seed the DB with 2 books
+// seed the db with 2 books
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<BookDbContext>();
@@ -27,18 +27,18 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 📘 GET all books
+// get all books
 app.MapGet("/books", async (BookDbContext db) =>
     await db.Books.ToListAsync());
 
-// 📘 GET book by ID
+// get book by id
 app.MapGet("/books/{id}", async (int id, BookDbContext db) =>
 {
     var book = await db.Books.FindAsync(id);
     return book is not null ? Results.Ok(book) : Results.NotFound();
 });
 
-// ➕ POST new book
+// post new book
 app.MapPost("/books", async (Book book, BookDbContext db) =>
 {
     if (string.IsNullOrWhiteSpace(book.Title) || string.IsNullOrWhiteSpace(book.Author))
@@ -49,7 +49,7 @@ app.MapPost("/books", async (Book book, BookDbContext db) =>
     return Results.Created($"/books/{book.Id}", book);
 });
 
-// ✏️ PUT update book
+// put update book
 app.MapPut("/books/{id}", async (int id, Book updatedBook, BookDbContext db) =>
 {
     var book = await db.Books.FindAsync(id);
@@ -64,7 +64,7 @@ app.MapPut("/books/{id}", async (int id, Book updatedBook, BookDbContext db) =>
     return Results.Ok(book);
 });
 
-// ❌ DELETE book
+// delete book
 app.MapDelete("/books/{id}", async (int id, BookDbContext db) =>
 {
     var book = await db.Books.FindAsync(id);
@@ -75,7 +75,7 @@ app.MapDelete("/books/{id}", async (int id, BookDbContext db) =>
     return Results.Ok();
 });
 
-// 🧭 Enable Swagger
+// enable swagger
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
